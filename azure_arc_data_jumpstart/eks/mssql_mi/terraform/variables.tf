@@ -130,26 +130,26 @@ variable "windows_instance_types" {
   type        = string
 }
 
-variable "adminUserName" {
+variable "adminUsername" {
   description = ""
-  default = "arcdemo"
-  type = string
+  default     = "arcdemo"
+  type        = string
 }
 
 variable "REGISTRY_USERNAME" {
   description = "Private Azure Arc Data Container Registry Username"
-  default = ""
-  type = string
+  default     = ""
+  type        = string
 }
 
 variable "REGISTRY_PASSWORD" {
   description = "Private Azure Arc Data Container Registry Password"
-  default = ""
-  type = string
+  default     = ""
+  type        = string
 }
 
 variable "MSSQL_MI_NAME" {
   description = "MSSQL instance name to be deployed on the Kubernetes cluster"
-  default = "arcsqlmidemo"
-  type = string
+  default     = "arcsqlmidemo"
+  type        = string
 }
