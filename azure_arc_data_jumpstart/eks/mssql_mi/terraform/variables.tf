@@ -151,5 +151,5 @@ variable "REGISTRY_PASSWORD" {
 variable "MSSQL_MI_NAME" {
   description = "MSSQL instance name to be deployed on the Kubernetes cluster"
   default = "arcsqlmidemo"
-  type = ""
+  type = string
 }
