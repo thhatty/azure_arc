@@ -78,7 +78,7 @@ workflow ClientTools_01
                     Invoke-WebRequest "https://aka.ms/azdata-msi" -OutFile "C:\tmp\AZDataCLI.msi"
                     Invoke-WebRequest "https://raw.githubusercontent.com/microsoft/azure_arc/eks_sqlmi/azure_arc_data_jumpstart/eks/mssql_mi/terraform/scripts/MSSQL_MI_Cleanup.ps1" -OutFile "C:\tmp\MSSQL_MI_Cleanup.ps1"
                     Invoke-WebRequest "https://raw.githubusercontent.com/microsoft/azure_arc/eks_sqlmi/azure_arc_data_jumpstart/eks/mssql_mi/terraform/scripts/MSSQL_MI_Deploy.ps1" -OutFile "C:\tmp\MSSQL_MI_Deploy.ps1"
-                    Invoke-WebRequest "https://raw.githubusercontent.com/microsoft/azure_arc/eks_sqlmi/azure_arc_data_jumpstart/eks/mssql_mi/terraform/settings_template.json" -OutFile "C:\tmp\settings_template.json"
+                    Invoke-WebRequest "https://raw.githubusercontent.com/microsoft/azure_arc/eks_sqlmi/azure_arc_data_jumpstart/eks/mssql_mi/terraform/settings.json" -OutFile "C:\tmp\settings_template.json"
                 }
         }
 
