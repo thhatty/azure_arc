@@ -129,3 +129,27 @@ variable "windows_instance_types" {
   default     = "t2.large"
   type        = string
 }
+
+variable "adminUserName" {
+  description = ""
+  default = "arcdemo"
+  type = string
+}
+
+variable "REGISTRY_USERNAME" {
+  description = "Private Azure Arc Data Container Registry Username"
+  default = ""
+  type = string
+}
+
+variable "REGISTRY_PASSWORD" {
+  description = "Private Azure Arc Data Container Registry Password"
+  default = ""
+  type = string
+}
+
+variable "MSSQL_MI_NAME" {
+  description = "MSSQL instance name to be deployed on the Kubernetes cluster"
+  default = "arcsqlmidemo"
+  type = ""
+}
