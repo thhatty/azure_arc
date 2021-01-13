@@ -6,7 +6,7 @@ azdata arc dc create --namespace $env:ARC_DC_NAME --name $env:ARC_DC_NAME --subs
 
 # Deploying Azure Arc SQL Managed Instance
 azdata login --namespace $env:ARC_DC_NAME
-azdata arc sql mi create --name $env:MSSQL_MI_NAME --storage-class-data managed-premium --storage-class-logs managed-premium
+azdata arc sql mi create --name $env:MSSQL_MI_NAME
 azdata arc sql mi list
 
 # Cleaning MSSQL Instance connectivity details

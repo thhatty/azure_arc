@@ -115,7 +115,7 @@ Stop-Transcript
 
 '@ > C:\tmp\sql_connectivity.ps1
 
-# Creating PowerShell LogonScript script
+# Creating PowerShell LogonScript
 $LogonScript = @'
 Start-Transcript -Path C:\tmp\LogonScript.log
 
@@ -177,6 +177,15 @@ if(($env:DOCKER_TAG -ne $NULL) -or ($env:DOCKER_TAG -ne ""))
 
 azdata arc dc create --namespace $env:ARC_DC_NAME --name $env:ARC_DC_NAME --subscription $env:ARC_DC_SUBSCRIPTION --resource-group $env:ARC_DC_RG --location $env:ARC_DC_REGION --connectivity-mode direct --path "C:\tmp\custom"
 
+# Deploying Azure Arc SQL Managed Instance
+azdata login --namespace $env:ARC_DC_NAME
+azdata arc sql mi create --name $env:MSSQL_MI_NAME
+
+azdata arc sql mi list
+
+# Creating MSSQL Instance connectivity details
+Start-Process powershell -ArgumentList "C:\tmp\sql_connectivity.ps1" -WindowStyle Hidden -Wait
+
 Unregister-ScheduledTask -TaskName "LogonScript" -Confirm:$false
 
 # Stopping log for LogonScript.ps1
@@ -189,6 +198,9 @@ Stop-Process -Name powershell -Force
 $Trigger = New-ScheduledTaskTrigger -AtLogOn
 $Action = New-ScheduledTaskAction -Execute "PowerShell.exe" -Argument 'C:\tmp\LogonScript.ps1'
 Register-ScheduledTask -TaskName "LogonScript" -Trigger $Trigger -User $env:USERNAME -Action $Action -RunLevel "Highest" -Force
+
+# Disabling Windows Server Manager Scheduled Task
+Get-ScheduledTask -TaskName ServerManager | Disable-ScheduledTask
 
 # Stopping log for ClientTools.ps1
 Stop-Transcript
