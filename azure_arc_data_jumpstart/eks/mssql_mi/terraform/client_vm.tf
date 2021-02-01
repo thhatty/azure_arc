@@ -103,11 +103,11 @@ resource "aws_instance" "windows" {
   user_data = file("scripts/user_data.txt")
 
   provisioner "local-exec" {
-    command = "terraform output kubeconfig > config"
+    command = "terraform output -json kubeconfig | jq -r . > config"
   }
 
   provisioner "local-exec" {
-    command = "terraform output config_map_aws_auth > configmap.yml"
+    command = "terraform output -json config_map_aws_auth | jq -r . > configmap.yml"
   }
 
   provisioner "file" {

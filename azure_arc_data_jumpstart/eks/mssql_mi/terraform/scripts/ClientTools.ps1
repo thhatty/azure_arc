@@ -31,13 +31,13 @@ Write-Host "`n"
 Invoke-WebRequest "https://azuredatastudio-update.azurewebsites.net/latest/win32-x64-archive/stable" -OutFile "C:\tmp\azuredatastudio.zip" | Out-Null
 Invoke-WebRequest "https://raw.githubusercontent.com/microsoft/azure_arc/eks_sqlmi/azure_arc_data_jumpstart/eks/mssql_mi/terraform/settings.json" -OutFile "C:\tmp\settings.json"
 Invoke-WebRequest "https://aka.ms/azdata-msi" -OutFile "C:\tmp\AZDataCLI.msi" | Out-Null
-Invoke-WebRequest "https://raw.githubusercontent.com/microsoft/azure_arc/eks_sqlmi/azure_arc_data_jumpstart/eks/mssql_mi/terraform/scripts/MSSQL_MI_Cleanup.ps1" -OutFile "C:\tmp\DC_Cleanup.ps1"
-Invoke-WebRequest "https://raw.githubusercontent.com/microsoft/azure_arc/eks_sqlmi/azure_arc_data_jumpstart/eks/mssql_mi/terraform/scripts/MSSQL_MI_Deploy.ps1" -OutFile "C:\tmp\DC_Deploy.ps1"
+Invoke-WebRequest "https://raw.githubusercontent.com/microsoft/azure_arc/eks_sqlmi/azure_arc_data_jumpstart/eks/mssql_mi/terraform/scripts/MSSQL_MI_Cleanup.ps1" -OutFile "C:\tmp\MSSQL_MI_Cleanup.ps1"
+Invoke-WebRequest "https://raw.githubusercontent.com/microsoft/azure_arc/eks_sqlmi/azure_arc_data_jumpstart/eks/mssql_mi/terraform/scripts/MSSQL_MI_Deploy.ps1" -OutFile "C:\tmp\MSSQL_MI_Deploy.ps1"
 
 Write-Host "Deleting AWS Desktop shortcuts"
 Write-Host "`n"
-Remove-Item -Path "C:\Users\$env:USERNAME\Desktop\EC2 Microsoft Windows Guide.website" -Force
-Remove-Item -Path "C:\Users\$env:USERNAME\Desktop\EC2 Feedback.website" -Force
+Remove-Item -Path "C:\Users\$env:adminUsername\Desktop\EC2 Microsoft Windows Guide.website" -Force
+Remove-Item -Path "C:\Users\$env:adminUsername\Desktop\EC2 Feedback.website" -Force
 
 # Creating PowerShell sql_connectivity Script
 $sql_connectivity = @'
@@ -93,13 +93,13 @@ $s = Get-Content "C:\tmp\sql_instance_list.txt"
 $s.Split(' ')[-1] | Out-File -FilePath "C:\tmp\sql_instance_settings.txt" -Encoding ascii -NoNewline
 
 # Creating Azure Data Studio settings for SQL Managed Instance connection
-Copy-Item -Path "C:\tmp\settings_template.json" -Destination "C:\tmp\settings_template_backup.json" -Recurse -Force -ErrorAction Continue
+Copy-Item -Path "C:\tmp\settings.json" -Destination "C:\tmp\settings_backup.json" -Recurse -Force -ErrorAction Continue
 $s = Get-Content "C:\tmp\sql_instance_settings.txt"
-(Get-Content -Path "C:\tmp\settings_template.json" -Raw) -replace 'arc_sql_mi',$s | Set-Content -Path "C:\tmp\settings_template.json"
-(Get-Content -Path "C:\tmp\settings_template.json" -Raw) -replace 'sa_username',$env:AZDATA_USERNAME | Set-Content -Path "C:\tmp\settings_template.json"
-(Get-Content -Path "C:\tmp\settings_template.json" -Raw) -replace 'sa_password',$env:AZDATA_PASSWORD | Set-Content -Path "C:\tmp\settings_template.json"
-(Get-Content -Path "C:\tmp\settings_template.json" -Raw) -replace 'false','true' | Set-Content -Path "C:\tmp\settings_template.json"
-Copy-Item -Path "C:\tmp\settings_template.json" -Destination "C:\Users\$env:adminUsername\AppData\Roaming\azuredatastudio\User\settings.json" -Recurse -Force -ErrorAction Continue
+(Get-Content -Path "C:\tmp\settings.json" -Raw) -replace 'arc_sql_mi',$s | Set-Content -Path "C:\tmp\settings.json"
+(Get-Content -Path "C:\tmp\settings.json" -Raw) -replace 'sa_username',$env:AZDATA_USERNAME | Set-Content -Path "C:\tmp\settings.json"
+(Get-Content -Path "C:\tmp\settings.json" -Raw) -replace 'sa_password',$env:AZDATA_PASSWORD | Set-Content -Path "C:\tmp\settings.json"
+(Get-Content -Path "C:\tmp\settings.json" -Raw) -replace 'false','true' | Set-Content -Path "C:\tmp\settings_template.json"
+Copy-Item -Path "C:\tmp\settings.json" -Destination "C:\Users\$env:adminUsername\AppData\Roaming\azuredatastudio\User\settings.json" -Recurse -Force -ErrorAction Continue
 
 # Cleaning garbage
 Remove-Item "C:\tmp\sql_instance_settings.txt" -Force
@@ -124,7 +124,7 @@ Write-Host "`n"
 Expand-Archive 'C:\tmp\azuredatastudio.zip' -DestinationPath 'C:\Program Files\Azure Data Studio'
 Start-Process msiexec.exe -Wait -ArgumentList '/I "C:\tmp\AZDataCLI.msi" /quiet'
 
-$SettingsDestination = "C:\Users\$env:USERNAME\AppData\Roaming\azuredatastudio\User"
+$SettingsDestination = "C:\Users\$env:adminUsername\AppData\Roaming\azuredatastudio\User"
 Start-Process -FilePath "C:\Program Files\Azure Data Studio\azuredatastudio.exe" -WindowStyle Hidden
 Start-Sleep -s 5
 Stop-Process -Name "azuredatastudio" -Force
@@ -143,7 +143,7 @@ $env:argument3="microsoft.azuredatastudio-postgresql"
 Write-Host "Creating Azure Data Studio Desktop shortcut"
 Write-Host "`n"
 $TargetFile = "C:\Program Files\Azure Data Studio\azuredatastudio.exe"
-$ShortcutFile = "C:\Users\$env:USERNAME\Desktop\Azure Data Studio.lnk"
+$ShortcutFile = "C:\Users\$env:adminUsername\Desktop\Azure Data Studio.lnk"
 $WScriptShell = New-Object -ComObject WScript.Shell
 $Shortcut = $WScriptShell.CreateShortcut($ShortcutFile)
 $Shortcut.TargetPath = $TargetFile
@@ -197,7 +197,7 @@ Stop-Process -Name powershell -Force
 # Creating LogonScript Windows Scheduled Task
 $Trigger = New-ScheduledTaskTrigger -AtLogOn
 $Action = New-ScheduledTaskAction -Execute "PowerShell.exe" -Argument 'C:\tmp\LogonScript.ps1'
-Register-ScheduledTask -TaskName "LogonScript" -Trigger $Trigger -User $env:USERNAME -Action $Action -RunLevel "Highest" -Force
+Register-ScheduledTask -TaskName "LogonScript" -Trigger $Trigger -User $env:adminUsername -Action $Action -RunLevel "Highest" -Force
 
 # Disabling Windows Server Manager Scheduled Task
 Get-ScheduledTask -TaskName ServerManager | Disable-ScheduledTask
