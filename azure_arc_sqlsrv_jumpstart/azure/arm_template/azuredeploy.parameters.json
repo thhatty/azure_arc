@@ -3,34 +3,34 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "vmSize": {
-            "value": "<VM size>"
+            "value": "Standard_D8s_v3"
         },
         "vmName":{
-            "value": "<VM Name>"
+            "value": "Arc-SQL-Demo"
         },
         "adminUsername": {
-          "value": "<Windows VM admin username>"
+          "value": "ArcDemo"
         },
         "adminPassword": {
-            "value": "<Windows VM admin password>"
+            "value": "ArcPassword123!!"
         },
         "resourceGroup": {
-          "value": "<Azure resource group where all resource to be deployed>"
+          "value": "AllArcVMs"
         },      
         "servicePrincipalAppId": {
-            "value": "<Azure service principal name>"
+            "value": "7a90c23c-fcd8-47dc-84a2-325f9c87ab04"
         },
         "servicePrincipalSecret": {
-            "value": "<Azure service principal password>"
+            "value": "beQnOhNYnLnu52vOyVwOvieBRlZm~pT5yn"
         },
         "servicePrincipalTenantId": {
-            "value": "<Azure tenant ID>"
+            "value": "72f988bf-86f1-41af-91ab-2d7cd011db47"
         },
         "subId": {
-            "value": "<Azure subscription ID>"
+            "value": "271f1c54-a965-4431-8a04-85e73028ca02"
         },
         "location": {
-            "value": "<Azure region>"
+            "value": "eastus"
         }
       }
   }
