@@ -15,19 +15,19 @@
             "value": "ArcPassword123!!"
         },
         "resourceGroup": {
-          "value": "AllArcVMs"
+          "value": "Demo"
         },      
         "servicePrincipalAppId": {
-            "value": "7a90c23c-fcd8-47dc-84a2-325f9c87ab04"
+            "value": "31c28f58-e733-4591-a7b4-55c42e35f97c"
         },
         "servicePrincipalSecret": {
-            "value": "beQnOhNYnLnu52vOyVwOvieBRlZm~pT5yn"
+            "value": "fArxtO.zZg3t-XSO_SxpWK9C87ICN~KhxU"
         },
         "servicePrincipalTenantId": {
-            "value": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+            "value": "ada79fc3-524b-4499-b38d-a5fb2ada3a2e"
         },
         "subId": {
-            "value": "271f1c54-a965-4431-8a04-85e73028ca02"
+            "value": "9172d46a-396b-4ec9-8265-00f3e37c4905"
         },
         "location": {
             "value": "eastus"
